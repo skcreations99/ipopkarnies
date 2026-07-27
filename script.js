@@ -1,55 +1,70 @@
-// Fade in page
+// Wait for page load
 window.addEventListener("load", () => {
     document.body.classList.add("loaded");
 });
 
-// Smooth button animation
-const cards = document.querySelectorAll(".card");
+// Animate buttons one by one
+const buttons = document.querySelectorAll(".btn");
 
-cards.forEach((card, index) => {
-
-    card.style.opacity = "0";
-    card.style.transform = "translateY(30px)";
+buttons.forEach((button, index) => {
+    button.style.opacity = "0";
+    button.style.transform = "translateY(30px)";
 
     setTimeout(() => {
-        card.style.transition = "all .6s ease";
-        card.style.opacity = "1";
-        card.style.transform = "translateY(0)";
-    }, index * 150);
+        button.style.transition = "all .6s ease";
+        button.style.opacity = "1";
+        button.style.transform = "translateY(0)";
+    }, 250 + index * 150);
+});
+
+// Hero image floating + mouse movement
+const hero = document.querySelector(".hero-img");
+
+let mouseX = 0;
+let mouseY = 0;
+
+document.addEventListener("mousemove", (e) => {
+
+    mouseX = (e.clientX / window.innerWidth - 0.5) * 20;
+    mouseY = (e.clientY / window.innerHeight - 0.5) * 20;
 
 });
 
-// Floating hero image
-const hero = document.querySelector(".hero-image");
-
-let angle = 0;
-
-function animateHero() {
-
-    angle += 0.01;
+function animate() {
 
     hero.style.transform =
-        `scale(1.05) translateY(${Math.sin(angle) * 8}px)`;
+        `translate(${mouseX}px, ${mouseY}px)`;
 
-    requestAnimationFrame(animateHero);
+    requestAnimationFrame(animate);
 
 }
 
-animateHero();
+animate();
 
-// Card click effect
-cards.forEach(card => {
+// Button press animation
+buttons.forEach(button => {
 
-    card.addEventListener("click", () => {
+    button.addEventListener("click", () => {
 
-        card.style.transform = "scale(.97)";
+        button.style.transform = "scale(.96)";
 
         setTimeout(() => {
 
-            card.style.transform = "scale(1)";
+            button.style.transform = "";
 
         }, 150);
 
     });
 
 });
+
+// Smooth page fade
+document.body.style.opacity = "0";
+
+window.onload = () => {
+
+    document.body.style.transition = "opacity .8s ease";
+
+    document.body.style.opacity = "1";
+
+};
